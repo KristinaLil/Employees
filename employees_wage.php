@@ -2,13 +2,44 @@
 
 include("db.php");
 
-$sql = "SELECT id,name,surname,phone,education,salary FROM employees ORDER BY id ASC";
-$result = $pdo->query($sql);
-$employees = $result->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 
-$sql2 = "SELECT id,name,base_salary FROM positions ORDER BY id ASC";
-$result2 = $pdo->query($sql2);
-$positions = $result2->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+    $sql = "DELETE FROM employees WHERE id=?";
+    $pstm = $pdo->prepare($sql);
+    $pstm->execute([$_GET['id']]);
+
+}
+
+
+
+$sql="SELECT id,name,surname,gender,phone,birthday,education,salary FROM employees ORDER BY id ASC";
+$pstm=$pdo->prepare($sql);
+$pstm->execute([]);
+$employees=$pstm->fetchAll(PDO::FETCH_ASSOC);
+
+$sql2="SELECT id,name,base_salary FROM positions ORDER BY id ASC";
+$pstm2=$pdo->prepare($sql2);
+$pstm2->execute([]);
+$positions=$pstm2->fetchAll(PDO::FETCH_ASSOC);
+
+// $sql = "SELECT id,name,surname,phone,education,salary FROM employees ORDER BY id ASC";
+
+// $pstm=$pdo->prepare($sql);
+// $pstm->execute([]);
+// $employees=$pstm->fetchAll(PDO::FETCH_ASSOC);
+
+// $sql = "SELECT id,name,surname,gender,phone,birthday,education,salary FROM employees ORDER BY id ASC";
+// $result = $pdo->query($sql);
+// $employees = $result->fetchAll(PDO::FETCH_ASSOC);
+
+// $sql2 = "SELECT id,name,base_salary FROM positions ORDER BY id ASC";
+// $result2 = $pdo->query($sql2);
+// $positions = $result2->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 
 ?>
@@ -30,16 +61,20 @@ $positions = $result2->fetchAll(PDO::FETCH_ASSOC);
                 <div class="card mt-5">
                     <div class="card-header">Employees</div>
                     <div class="card-body">
+                    <a href="new.php" class="btn  btn-secondary mb-3 ">Insert new employee</a>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <td>ID</td>
                                     <td>Name</td>
                                     <td>Surname</td>
+                                    <td>Gender</td>
                                     <td>Phone</td>
+                                    <td>Birthday</td>
                                     <td>Education</td>
                                     <td>Salary</td>
                                     <td></td>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,10 +83,17 @@ $positions = $result2->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= $employee['id'] ?></td>
                                         <td><?= $employee['name'] ?></td>
                                         <td><?= $employee['surname'] ?></td>
+                                        <td><?= $employee['gender'] ?></td>
                                         <td><?= $employee['phone'] ?></td>
+                                        <td><?= $employee['birthday'] ?></td>
                                         <td><?= $employee['education'] ?></td>
                                         <td><?= round($employee['salary'] / 100) ?> eur</td>
-                                        <td><a href="employee_info.php" class="btn btn-info">More</a></td>
+                                        <td>
+                                            <a href="employee_info.php?id=<?=$employee['id']?>" class="btn btn-success">More</a>
+                                            <a href="edit.php?id=<?=$employee['id']?>" class="btn btn-warning">Edit</a>
+                                            <a href="employees_wage.php?action=delete&id=<?=$employee['id']?>" class="btn btn-danger">Delete</a>
+                                        </td>
+
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -76,9 +118,11 @@ $positions = $result2->fetchAll(PDO::FETCH_ASSOC);
                                                     $baseSalary = $position['base_salary'] / 100;
                                                 ?>
                                                     <tr>
+                                                        <td><?= $position['id'] ?></td>
                                                         <td><?= $position['name'] ?></td>
                                                         <td><?= $baseSalary ?> EUR</td>
-                                                        <td><a href="#" class="btn btn-primary">Employees</a></td>
+                                                        <td><a href="#" class="btn btn-secondary">Employees</a></td>
+                                                        
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>
