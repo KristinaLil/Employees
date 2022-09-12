@@ -3,19 +3,12 @@
 include("db.php");
 
 if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-
-
-
-
     $sql = "DELETE FROM employees WHERE id=?";
     $pstm = $pdo->prepare($sql);
     $pstm->execute([$_GET['id']]);
-
 }
 
-
-
-$sql="SELECT id,name,surname,gender,phone,birthday,education,salary FROM employees ORDER BY id ASC";
+$sql="SELECT id,name,surname,gender,phone,birthday,education,salary,position_id FROM employees ORDER BY id ASC";
 $pstm=$pdo->prepare($sql);
 $pstm->execute([]);
 $employees=$pstm->fetchAll(PDO::FETCH_ASSOC);
@@ -25,22 +18,10 @@ $pstm2=$pdo->prepare($sql2);
 $pstm2->execute([]);
 $positions=$pstm2->fetchAll(PDO::FETCH_ASSOC);
 
-// $sql = "SELECT id,name,surname,phone,education,salary FROM employees ORDER BY id ASC";
-
-// $pstm=$pdo->prepare($sql);
-// $pstm->execute([]);
-// $employees=$pstm->fetchAll(PDO::FETCH_ASSOC);
-
-// $sql = "SELECT id,name,surname,gender,phone,birthday,education,salary FROM employees ORDER BY id ASC";
-// $result = $pdo->query($sql);
-// $employees = $result->fetchAll(PDO::FETCH_ASSOC);
-
-// $sql2 = "SELECT id,name,base_salary FROM positions ORDER BY id ASC";
-// $result2 = $pdo->query($sql2);
-// $positions = $result2->fetchAll(PDO::FETCH_ASSOC);
-
-
-
+$sql="SELECT employees.*,positions.name as position_name FROM employees LEFT JOIN positions ON employees.position_id=positions.id ORDER BY name ASC";
+$pstm=$pdo->prepare($sql);
+$pstm->execute([]);
+$employees=$pstm->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -73,8 +54,9 @@ $positions=$pstm2->fetchAll(PDO::FETCH_ASSOC);
                                     <td>Birthday</td>
                                     <td>Education</td>
                                     <td>Salary</td>
-                                    <td></td>
-                                    
+                                    <td>Position</td>
+                                    <td>Projects</td>
+                                    <td></td>               
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,6 +70,8 @@ $positions=$pstm2->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?= $employee['birthday'] ?></td>
                                         <td><?= $employee['education'] ?></td>
                                         <td><?= round($employee['salary'] / 100) ?> eur</td>
+                                        <td><?= $employee['position_name'] ?></td>
+                                        <td></td>
                                         <td>
                                             <a href="employee_info.php?id=<?=$employee['id']?>" class="btn btn-success">More</a>
                                             <a href="edit.php?id=<?=$employee['id']?>" class="btn btn-warning">Edit</a>
@@ -121,8 +105,7 @@ $positions=$pstm2->fetchAll(PDO::FETCH_ASSOC);
                                                         <td><?= $position['id'] ?></td>
                                                         <td><?= $position['name'] ?></td>
                                                         <td><?= $baseSalary ?> EUR</td>
-                                                        <td><a href="#" class="btn btn-secondary">Employees</a></td>
-                                                        
+                                                        <td><a href="#" class="btn btn-secondary">Employees</a></td>                                                      
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>

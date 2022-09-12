@@ -1,18 +1,33 @@
 <?php
+
 include("db.php");
+
 if (isset($_POST['action']) && $_POST['action'] == 'edit') {
-    $sql = "UPDATE employees SET name=?, surname=?, gender=?, phone=?, birthday=?, education=?, salary=? WHERE id=?";
+    $sql = "UPDATE employees SET name=?, surname=?, gender=?, phone=?, birthday=?, education=?, salary=?, position_id=? WHERE id=?";
     $stm = $pdo->prepare($sql);
-    $stm->execute([$_POST['name'], $_POST['surname'], $_POST['gender'], $_POST['phone'], $_POST['birthday'], $_POST['education'], $_POST['salary'], $_POST['id']]);
+    $stm->execute([$_POST['name'], $_POST['surname'], $_POST['gender'], $_POST['phone'], $_POST['birthday'], $_POST['education'], $_POST['salary'], $_POST['position_id'], $_POST['id']]);
     header("location:employees_wage.php");
     die();
 }
+
 $employee = [];
+$positions = [];
+$projects = [];
 if (isset($_GET['id'])) {
     $sql = "SELECT * FROM employees WHERE id=?";
     $stm = $pdo->prepare($sql);
     $stm->execute([$_GET['id']]);
     $employee = $stm->fetch(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT * FROM positions ORDER BY name";
+    $stm = $pdo->prepare($sql);
+    $stm->execute([]);
+    $positions = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT * FROM projects";
+    $stm = $pdo->prepare($sql);
+    $stm->execute([]);
+    $projects = $stm->fetchAll(PDO::FETCH_ASSOC);
 } else {
     header("location:employees_wage.php");
     die();
@@ -32,7 +47,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-md-12">
                 <div class="card mt-5">
@@ -50,7 +65,7 @@ if (isset($_GET['id'])) {
                                 <input name="surname" type="text" class="form-control" value="<?= $employee['surname'] ?>">
                             </div>
                             <div class="mb-3">
-                            <label for="" class="form-label">Gender:</label>
+                                <label for="" class="form-label">Gender:</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="gender" value="women" checked>
                                     <label class="form-check-label" for="women">
@@ -62,7 +77,7 @@ if (isset($_GET['id'])) {
                                     <label class="form-check-label" for="men">
                                         Men
                                     </label>
-                                </div>                              
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Phone:</label>
@@ -80,11 +95,16 @@ if (isset($_GET['id'])) {
                                 <label for="" class="form-label">Salary:</label>
                                 <input name="salary" type="text" class="form-control" value="<?= $employee['salary'] ?>">
                             </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Position:</label>
+                                <select name="position_id" class="form-control">
+                                    <?php foreach ($positions as $position) { ?>
+                                        <option value="<?= $position['id'] ?>" <?= ($position['id'] == $employee['position_id']) ? 'selected' : '' ?>><?= $position['name'] ?></option> <?php } ?>
+                                </select>
+                            </div>
                             <button class="btn btn-success" type="submit" value="submit">Edit</button>
                             <a href="employees_wage.php" class="btn btn-info float-end">Go back</a>
                         </form>
-
-
                     </div>
                 </div>
             </div>
