@@ -5,9 +5,12 @@ include("db.php");
 $sql = "SELECT * FROM employees WHERE id=?";
 $result = $pdo->prepare($sql);
 $result->execute([$_GET['id']]);
-
 $employees = $result->fetchAll(PDO::FETCH_ASSOC);
 
+$sql = "SELECT pos.name FROM positions as pos LEFT JOIN employees as e ON e.position_id=pos.id WHERE e.id=?";
+$result = $pdo->prepare($sql);
+$result->execute([$_GET['id']]);
+$position = $result->fetch(PDO::FETCH_ASSOC);
 
 foreach ($employees as $employee) {
     $ts = $employee['salary'] / 100;
@@ -41,7 +44,7 @@ foreach ($employees as $employee) {
 
 <body>
 
-    <div class="container" tabindex="-1">
+    <div class="container mt-5 mb-5" tabindex="-1">
         <div class="row">
             <div class="col-md-12">
                 <div class="header">
@@ -50,7 +53,7 @@ foreach ($employees as $employee) {
             </div>
             <div class="col-md-6">
                 <p>
-                    <b>Position: </b> <br /> -
+                    <b>Position: </b> <br /> <?= $position['name']?>
                 </p>
                 <p>
                     <b>Salary: </b> <br /><?= $employee['salary'] / 100 ?> EUR

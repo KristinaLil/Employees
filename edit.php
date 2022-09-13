@@ -67,7 +67,7 @@ if (isset($_GET['id'])) {
                             <div class="mb-3">
                                 <label for="" class="form-label">Gender:</label>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" value="women" checked>
+                                    <input class="form-check-input" type="radio" name="gender" value="women">
                                     <label class="form-check-label" for="women">
                                         Women
                                     </label>
@@ -93,7 +93,7 @@ if (isset($_GET['id'])) {
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Salary:</label>
-                                <input name="salary" type="text" class="form-control" value="<?= $employee['salary'] ?>">
+                                <input name="salary" type="text" class="form-control" value="<?= $employee['salary']/100 ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Position:</label>
