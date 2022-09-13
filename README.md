@@ -1,4 +1,8 @@
 # Employees
-![screencapture-localhost-php-Homework-SQL-Employees-employees-wage-php-2022-09-13-01_31_52](https://user-images.githubusercontent.com/98602810/189770400-71d6e532-2e9f-4f58-8fdb-5ed4ada3fc27.png)
-![screencapture-localhost-php-Homework-SQL-Employees-edit-php-2022-09-13-01_32_16](https://user-images.githubusercontent.com/98602810/189770414-8cb8e7be-547c-409c-b5d6-20a64f6a8f4e.png)
-![screencapture-localhost-php-Homework-SQL-Employees-employee-info-php-2022-09-13-01_49_59 (1)](https://user-images.githubusercontent.com/98602810/189772060-36582d8e-4cb0-44fb-b6f2-8116955be966.png)
+![screencapture-localhost-php-Homework-SQL-Employees-employees-wage-php-2022-09-13-20_28_06](https://user-images.githubusercontent.com/98602810/189979891-bffe2e53-ca2b-4043-b1f7-2d61e9513e68.png)
+# Add new employee
+![screencapture-localhost-php-Homework-SQL-Employees-new-php-2022-09-13-20_32_11](https://user-images.githubusercontent.com/98602810/189980119-bd8486e9-b35f-49e0-8e89-56ec68e16f00.png)
+# Edit employee
+![screencapture-localhost-php-Homework-SQL-Employees-edit-php-2022-09-13-20_33_30](https://user-images.githubusercontent.com/98602810/189980198-d73f124d-4051-49a5-8b03-afe8b716155c.png)
+# Employee info
+![screencapture-localhost-php-Homework-SQL-Employees-employee-info-php-2022-09-13-20_49_26](https://user-images.githubusercontent.com/98602810/189980442-eacaa377-47a5-4c8e-ab55-ed99cd61384f.png)
